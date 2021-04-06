@@ -7,6 +7,7 @@
 #include <unistd.h>
 
 #include "uart.h"
+#include "led.h"
 
 __sig_atomic_t run = 1;
 
@@ -28,8 +29,42 @@ int process_cmd(const char * in)
 {
     int ret;
     char cmd[16] = { 0 };
-    
-    if (CMP_STR(cmd, "exit") == 0)
+    char opt[16] = { 0 };
+    const char *buff = in, *off;
+
+    off = strchr(buff, ' ');
+    if (off == NULL) off = strchr(buff, '\0');
+    memcpy(cmd, buff, off - buff);
+    buff = off + 1;
+
+    if(CMP_STR(cmd, "led") == 0)
+    {
+        off = strchr(buff, ' ');
+        if (off == NULL) off = strchr(buff, '\0');
+        memcpy(opt, buff, off - buff);
+        buff = off+1;
+
+        if(CMP_STR(opt, "on") == 0)
+        {
+            led_on();
+            ret = 0;
+        }
+        else if (CMP_STR(opt, "off") == 0)
+        {
+            led_off();
+            ret = 0;
+        }
+        else if (CMP_STR(opt, "blink") == 0)
+        {
+            led_blink();
+            ret = 0;
+        }
+        else
+        {
+            ret = -EINVAL;
+        }
+    }
+    else if (CMP_STR(cmd, "exit") == 0)
     {
         run = 0;
         ret = 0;
@@ -64,6 +99,8 @@ int main(const int argc, const char ** argv)
     }
     fd = ret;
 
+    led_initialize();
+
     write(fd, "ledctl\r\n", 8);
     fp = fdopen(fd, "rw");
 
@@ -82,6 +119,8 @@ int main(const int argc, const char ** argv)
         }
         fflush(fp);
     } while (run);
+
+    led_deinitialize();
 
     close_uart(fd);
 
