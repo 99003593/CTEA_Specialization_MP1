@@ -30,7 +30,7 @@ int open_uart(char const *file)
     tty_opts.c_oflag = ONLCR | OPOST;
     tty_opts.c_lflag = ECHO | ECHOCTL | ECHOE | ECHOK | ECHOKE | ECHOPRT | ICANON | IEXTEN | ISIG;  // canonical input
 
-    memcpy(&tty_opts.c_cc, &old_tty_opts.c_cc, sizeof(sizeof(tty_opts.c_cc)));
+    memcpy(&tty_opts.c_cc, &old_tty_opts.c_cc, sizeof(tty_opts.c_cc));
 
     tcflush(fd, TCIFLUSH);
     ret = tcsetattr(fd, TCSANOW, &tty_opts);
