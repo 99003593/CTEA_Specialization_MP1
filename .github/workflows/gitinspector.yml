@@ -46,5 +46,6 @@ jobs:
         git config user.name "GitHub Actions"
         git config user.email actions@github.com
         git add result.html
-        git commit -m "[auto] Update Results for commit SHA $GITHUB_SHA"
+# This is okay since it's for declarative purposes. See https://stackoverflow.com/a/12470056
+        git commit --allow-empty -m "[auto] Update Results for commit SHA $GITHUB_SHA"
         git push
