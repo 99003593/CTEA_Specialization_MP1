@@ -1,9 +1,8 @@
 SRCS = $(wildcard src/*.c)
 OBJS = $(SRCS:c=o)
-EXE = uart_ledctl
-CROSS_COMPILE = arm-linux-gnueabi-
+EXE = uart_ledctl.out
 CC = gcc
-# CC := $(CROSS_COMPILE)$(CC)
+CC := $(CROSS_COMPILE)$(CC)
 
 CFLAGS = -g -Wall
 

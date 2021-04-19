@@ -3,6 +3,7 @@
 #include <termios.h>
 #include <unistd.h>
 #include <fcntl.h>
+#include <string.h>
 
 struct termios old_tty_opts = { 0 };
 
@@ -50,12 +51,10 @@ open_okay:
     return ret;
 }
 
-void close_uart(int fd)
+int close_uart(int fd)
 {
     int ret = 0;
     ret = tcsetattr(fd, TCSAFLUSH, &old_tty_opts);
-    if (ret) {
-        perror("tcsetattr");
-    }
     close(fd);
+    return ret;
 }

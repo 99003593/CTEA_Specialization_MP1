@@ -122,7 +122,10 @@ int main(const int argc, const char ** argv)
 
     led_deinitialize();
 
-    close_uart(fd);
+    ret = close_uart(fd);
+    if (ret) {
+        perror("tcsetattr");
+    }
 
 main_err:
     return ret;
