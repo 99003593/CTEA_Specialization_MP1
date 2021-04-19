@@ -16,4 +16,4 @@ jobs:
     - name: Install cppcheck
       run: sudo apt -y install cppcheck
     - name: Run cppcheck
-      run: cppcheck src
+      run: cppcheck src/ --enable=all --error-exitcode=1 --inline-suppr

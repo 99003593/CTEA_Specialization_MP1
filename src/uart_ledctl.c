@@ -29,6 +29,7 @@ int process_cmd(const char * in)
 {
     int ret;
     char cmd[16] = { 0 };
+    // cppcheck-suppress variableScope
     char opt[16] = { 0 };
     const char *buff = in, *off;
 
